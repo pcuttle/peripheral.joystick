@@ -45,6 +45,8 @@ bool CDeviceXml::Serialize(const CDevice& record, TiXmlElement* pElement)
     pElement->SetAttribute(BUTTONMAP_XML_ATTR_DEVICE_HATCOUNT, record.HatCount());
   if (record.AxisCount() != 0)
     pElement->SetAttribute(BUTTONMAP_XML_ATTR_DEVICE_AXISCOUNT, record.AxisCount());
+  if (record.KeyboardIndex() != 0)
+    pElement->SetAttribute(BUTTONMAP_XML_ATTR_DEVICE_INDEX, record.KeyboardIndex());
   return true;
 }
 
@@ -85,6 +87,10 @@ bool CDeviceXml::Deserialize(const TiXmlElement* pElement, CDevice& record)
   const char* axisCount = pElement->Attribute(BUTTONMAP_XML_ATTR_DEVICE_AXISCOUNT);
   if (axisCount)
     record.SetAxisCount(std::atoi(axisCount));
+
+  const char* keyboardIndex = pElement->Attribute(BUTTONMAP_XML_ATTR_DEVICE_INDEX);
+  if (keyboardIndex)
+    record.SetKeyboardIndex(std::atoi(keyboardIndex));
 
   return true;
 }

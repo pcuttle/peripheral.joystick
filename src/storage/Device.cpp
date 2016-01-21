@@ -40,7 +40,8 @@ bool CDevice::operator==(const CDevice& rhs) const
          ProductID() == rhs.ProductID() &&
          ButtonCount() == rhs.ButtonCount() &&
          HatCount() == rhs.HatCount() &&
-         AxisCount() == rhs.AxisCount();
+         AxisCount() == rhs.AxisCount() &&
+         KeyboardIndex() == rhs.KeyboardIndex();
 }
 
 bool CDevice::operator<(const CDevice& rhs) const
@@ -65,6 +66,9 @@ bool CDevice::operator<(const CDevice& rhs) const
 
   if (AxisCount() < rhs.AxisCount()) return true;
   if (AxisCount() > rhs.AxisCount()) return false;
+
+  if (KeyboardIndex() < rhs.KeyboardIndex()) return true;
+  if (KeyboardIndex() > rhs.KeyboardIndex()) return false;
 
   return false;
 }
@@ -128,6 +132,8 @@ void CDevice::MergeProperties(const CDevice& record)
     SetHatCount(record.HatCount());
     SetAxisCount(record.AxisCount());
   }
+
+  SetKeyboardIndex(record.KeyboardIndex());
 }
 
 std::string CDevice::RootFileName(void) const
@@ -164,6 +170,8 @@ std::string CDevice::RootFileName(void) const
     filename << "_" << HatCount() << "h";
   if (AxisCount() != 0)
     filename << "_" << AxisCount() << "a";
+  if (KeyboardIndex() != 0)
+    filename << "_" << KeyboardIndex();
 
   return filename.str();
 }
