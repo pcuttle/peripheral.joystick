@@ -1,0 +1,118 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:b="http://kodi.tv/retroplayer/buttonmap"
+           targetNamespace="http://kodi.tv/retroplayer/buttonmap">
+
+    <!-- enumerations -->
+    <xs:simpleType name="providerEnum">
+        <xs:restriction>
+            <xs:enumeration value="android"/>
+            <xs:enumeration value="application"/>
+            <xs:enumeration value="cocoa"/>
+            <xs:enumeration value="directinput"/>
+            <xs:enumeration value="linux"/>
+            <xs:enumeration value="xinput"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="controllerIdEnum">
+        <xs:restriction>
+            <xs:enumeration value="game.controller.default"/>
+            <xs:enumeration value="game.controller.dreamcast"/>
+            <xs:enumeration value="game.controller.gba"/>
+            <xs:enumeration value="game.controller.genesis"/>
+            <xs:enumeration value="game.controller.n64"/>
+            <xs:enumeration value="game.controller.nes"/>
+            <xs:enumeration value="game.controller.ps"/>
+            <xs:enumeration value="game.controller.snes"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="featureNameEnum">
+        <xs:restriction>
+            <xs:enumeration value="analogstick"/>
+            <xs:enumeration value="a"/>
+            <xs:enumeration value="b"/>
+            <xs:enumeration value="c"/>
+            <xs:enumeration value="cdown"/>
+            <xs:enumeration value="circle"/>
+            <xs:enumeration value="cleft"/>
+            <xs:enumeration value="cright"/>
+            <xs:enumeration value="cross"/>
+            <xs:enumeration value="cup"/>
+            <xs:enumeration value="down"/>
+            <xs:enumeration value="back"/>
+            <xs:enumeration value="l3"/>
+            <xs:enumeration value="left"/>
+            <xs:enumeration value="leftbumper"/>
+            <xs:enumeration value="leftstick"/>
+            <xs:enumeration value="leftthumb"/>
+            <xs:enumeration value="lefttrigger"/>
+            <xs:enumeration value="mode"/>
+            <xs:enumeration value="r3"/>
+            <xs:enumeration value="right"/>
+            <xs:enumeration value="rightbumper"/>
+            <xs:enumeration value="rightstick"/>
+            <xs:enumeration value="rightthumb"/>
+            <xs:enumeration value="righttrigger"/>
+            <xs:enumeration value="select"/>
+            <xs:enumeration value="square"/>
+            <xs:enumeration value="start"/>
+            <xs:enumeration value="triangle"/>
+            <xs:enumeration value="up"/>
+            <xs:enumeration value="x"/>
+            <xs:enumeration value="y"/>
+            <xs:enumeration value="z"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+
+    <!-- complex types -->
+
+    <xs:complexType name="axis">
+        <xs:attribute name="axis" type="xs:integer" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="controllerFeature">
+        <xs:sequence minOccurs="0" maxOccurs="1">
+            <xs:element name="up" type="b:axis" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="down" type="b:axis"/>
+            <xs:element name="right" type="b:axis"/>
+            <xs:element name="left" type="b:axis" minOccurs="1" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="b:featureNameEnum" use="required"/>
+        <xs:attribute name="button" type="xs:positiveInteger" use="optional"/>
+        <xs:attribute name="axis" type="xs:integer" use="optional"/>
+        <xs:attribute name="hat" type="xs:string" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="controller">
+        <xs:sequence>
+            <xs:element name="feature" type="b:controllerFeature"/>
+        </xs:sequence>
+        <xs:attribute name="id" type="b:controllerIdEnum"/>
+    </xs:complexType>
+
+    <xs:complexType name="device">
+        <xs:sequence>
+            <xs:element name="controller" type="b:controller"/>
+        </xs:sequence>
+        <xs:attribute name="name" type="xs:string" use="required"/>
+        <xs:attribute name="provider" type="b:providerEnum" use="required"/>
+        <xs:attribute name="buttoncount" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="axiscount" type="xs:positiveInteger" use="required"/>
+        <xs:attribute name="hatcount" type="xs:positiveInteger" use="optional"/>
+        <xs:attribute name="vid" type="xs:hexBinary" use="optional"/>
+        <xs:attribute name="pid" type="xs:hexBinary" use="optional"/>
+    </xs:complexType>
+
+    <xs:complexType name="buttonmap">
+        <xs:choice>
+            <xs:element name="device" type="b:device"/>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:element name="buttonmap" type="buttonmap"/>
+
+</xs:schema>
